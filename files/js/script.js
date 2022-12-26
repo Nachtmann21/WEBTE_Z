@@ -31,7 +31,6 @@ function generateGameBoard() {
     for (let i = 0; i < numberOfSquares*numberOfSquares; i++) {
         const square = document.createElement('div');
         square.classList.add('square');
-        // change square with to be 100/numberOfSquares
         square.style.width = `95%`;
         square.style.height = `95%`;
         gameBoard.appendChild(square);
@@ -43,7 +42,6 @@ easyButton.addEventListener('click', function() {
     showGameBoard();
 });
 
-// Handle a click on the hard button
 hardButton.addEventListener('click', function() {
     difficulty = 'hard';
     showGameBoard();

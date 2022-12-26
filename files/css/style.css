@@ -1,0 +1,56 @@
+body {
+    background-color: teal;
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 610px;
+    height: 610px;
+    background-color: #fff;
+    padding: 5px;;
+}
+
+#game-board, #main-menu {
+    width: 100%;
+    height: 100%;
+}
+
+#game-board {
+    display: none;
+    background-color: aquamarine;
+    margin: auto;
+    align-items: center;
+}
+ 
+#main-menu {
+    background-color: wheat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#easy, #hard {
+    margin: 10px;
+    width: 100px;
+}
+
+#quit {
+    width: 100px;
+    position: absolute;
+    top: 110%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.square {
+    background-color: blueviolet;
+    justify-self: center;
+}
+
+.square:hover {
+    background-color: red;
+}

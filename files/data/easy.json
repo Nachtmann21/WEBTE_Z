@@ -1,0 +1,22 @@
+[
+    {        
+        "name": "Level 1",
+        "bombCoords": [[0, 1], [2, 2], [5, 1]]
+    },
+    {
+        "name": "Level 2",
+        "bombCoords": [[0, 1], [2, 2], [5, 1]]
+    },
+    {
+        "name": "Level 3",
+        "bombCoords": [[0, 1], [2, 2], [5, 1]]
+    },
+    {
+        "name": "Level 4",
+        "bombCoords": [[0, 1], [2, 2], [5, 1]]
+    },
+    {
+        "name": "Level 5",
+        "bombCoords": [[0, 1], [2, 2], [5, 1]]
+    }
+]

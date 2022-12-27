@@ -42,8 +42,8 @@ function generateTiles(numberOfSquares) {
     for(let x = 0; x < numberOfSquares; x++) {
         for(let y = 0; y < numberOfSquares; y++){
             const tile = new Tile(x, y);
+            determineTileType(tile, x, y);
             gameBoard.appendChild(tile);
-            console.log(tile.id);
         }
     }
 }
@@ -59,10 +59,18 @@ class Tile {
 }
 
 function determineTileType(tile, x, y) {
-    // const tileCoords = [x, y];
-    // const bombCoords = JSONdata[currentLevel].bombCoords;
-    tile.innerHTML = "0";
-    // console.log("Json coords: " + bombCoords);
+    const tileCoords = [x, y];
+    const bombCoords = JSONdata[currentLevel].bombCoords;
+    // tile.innerHTML = "0";
+    console.log(tileCoords + " <=> " + bombCoords[0]);
+    
+    const containsCoords = bombCoords.some(coord => coord[0] === tileCoords[0] && coord[1] === tileCoords[1]);
+
+    if (containsCoords) {
+    console.log('The JSON coordinates contain the original coordinates');
+    } else {
+    console.log('The JSON coordinates do not contain the original coordinates');
+    }
 }
 
 // Show the main menu and hide the game board

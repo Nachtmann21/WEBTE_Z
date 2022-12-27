@@ -81,12 +81,16 @@ function addTileEventListener(tile){
 }
 
 function revealTile(tile){
+    // TODO ak dragneme na tile odhalovac bomb, tak bombu zneskodnime
+    // TODO ak dragneme odhalovac empty tilov na bombu tak bomba jebne a prehrali sme
+
     if(tile.id === "Bomb"){
         tile.style.backgroundImage = "url(files/art/MineEx.png)";
         tile.style.backgroundSize = 'cover';
     }else if(tile.id === "Empty"){
         tile.style.backgroundImage = "url(files/art/Empty.png)";
         tile.style.backgroundSize = 'cover';
+        // TODO reveal all empty tiles within area
     }
 }
 
@@ -116,5 +120,9 @@ quitButton.addEventListener('click', function() {
     gameBoard.innerHTML = '';
     showMainMenu();
 });
+
+// TODO calculate the number of bombs around each tile
+    // change innerHTML to this number
+ 
 
 

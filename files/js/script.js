@@ -59,10 +59,10 @@ class Tile {
 }
 
 function determineTileType(tile, x, y) {
-    const tileCoords = [x, y];
-    const bombCoords = JSONdata[currentLevel].bombCoords;
+    // const tileCoords = [x, y];
+    // const bombCoords = JSONdata[currentLevel].bombCoords;
     tile.innerHTML = "0";
-    console.log("Json coords: " + bombCoords);
+    // console.log("Json coords: " + bombCoords);
 }
 
 // Show the main menu and hide the game board

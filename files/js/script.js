@@ -43,6 +43,7 @@ function generateTiles(numberOfSquares) {
         for(let y = 0; y < numberOfSquares; y++){
             const tile = new Tile(x, y);
             determineTileType(tile, x, y);
+            addTileEventListener(tile);
             gameBoard.appendChild(tile);
         }
     }
@@ -60,16 +61,32 @@ class Tile {
 
 function determineTileType(tile, x, y) {
     const tileCoords = [x, y];
-    const bombCoords = JSONdata[currentLevel].bombCoords;
-    // tile.innerHTML = "0";
-    console.log(tileCoords + " <=> " + bombCoords[0]);
-    
+    const bombCoords = JSONdata[currentLevel].bombCoords;    
     const containsCoords = bombCoords.some(coord => coord[0] === tileCoords[0] && coord[1] === tileCoords[1]);
 
     if (containsCoords) {
-    console.log('The JSON coordinates contain the original coordinates');
+        tile.id = "Bomb"
     } else {
-    console.log('The JSON coordinates do not contain the original coordinates');
+        tile.id = "Empty";
+    }
+
+    tile.style.backgroundImage = "url(files/art/Full.png)";
+    tile.style.backgroundSize = 'cover';
+}
+
+function addTileEventListener(tile){
+    tile.addEventListener("click", function(){
+        revealTile(tile);
+    });
+}
+
+function revealTile(tile){
+    if(tile.id === "Bomb"){
+        tile.style.backgroundImage = "url(files/art/MineEx.png)";
+        tile.style.backgroundSize = 'cover';
+    }else if(tile.id === "Empty"){
+        tile.style.backgroundImage = "url(files/art/Empty.png)";
+        tile.style.backgroundSize = 'cover';
     }
 }
 

@@ -1,7 +1,7 @@
 [
     {        
         "name": "Level 1",
-        "bombCoords": [[0, 1], [2, 2], [5, 1]]
+        "bombCoords": [[0, 0], [0, 1], [0, 2]]
     },
     {
         "name": "Level 2",

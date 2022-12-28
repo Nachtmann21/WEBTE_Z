@@ -47,11 +47,23 @@ body {
 }
 
 .tile {
+    display: flex;
     background-color: rgb(166, 166, 166);
     justify-self: center;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
-/* .tile:hover {
-    background-color: red;
-} */
+.tileCounter {
+    font-size: 24px;
+    text-align: center;
+}
+
+
+@media (max-width: 500px) {
+    .container {
+        width: 200px;
+        height: 200px;
+    }
+}

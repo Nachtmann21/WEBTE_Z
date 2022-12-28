@@ -1,5 +1,16 @@
 console.log("connected");
 
+// ----- PWA -----
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function() {
+        navigator.serviceWorker
+        .register("files/serviceWorker.js")
+        .then(res => console.log("service worker registered"))
+        .catch(err => console.log("service worker not registered", err))
+    })
+}
+// -----    -----
+
 var currentLevel = 0;
 var JSONdata;
 
@@ -43,7 +54,8 @@ function generateTiles(numberOfSquares) {
         for(let y = 0; y < numberOfSquares; y++){
             const tile = new Tile(x, y);
             determineTileType(tile, x, y);
-            addTileEventListener(tile);
+            const tileCounter = addTileCounter(tile);
+            addTileEventListener(tile, tileCounter);
             gameBoard.appendChild(tile);
         }
     }
@@ -74,13 +86,13 @@ function determineTileType(tile, x, y) {
     tile.style.backgroundSize = 'cover';
 }
 
-function addTileEventListener(tile){
+function addTileEventListener(tile, tileCounter){
     tile.addEventListener("click", function(){
-        revealTile(tile);
+        revealTile(tile, tileCounter);
     });
 }
 
-function revealTile(tile){
+function revealTile(tile, tileCounter){
     // TODO ak dragneme na tile odhalovac bomb, tak bombu zneskodnime
     // TODO ak dragneme odhalovac empty tilov na bombu tak bomba jebne a prehrali sme
 
@@ -91,7 +103,18 @@ function revealTile(tile){
         tile.style.backgroundImage = "url(files/art/Empty.png)";
         tile.style.backgroundSize = 'cover';
         // TODO reveal all empty tiles within area
+        // TODO calculate number of mines within 1 tile
+            // TODO set tileCounter.innerHTML = "numberOfNeighboringMnes";
+        
     }
+}
+
+function addTileCounter(tile) {
+    const tileCounter = document.createElement("div");
+    tileCounter.classList.add("tileCounter");
+    tileCounter.innerHTML = "";
+    tile.appendChild(tileCounter);
+    return tileCounter;
 }
 
 // Show the main menu and hide the game board

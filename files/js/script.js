@@ -35,7 +35,6 @@ var gameOver = false;
 function mainGameLoop(){
     showGameBoard();
     generateBoard();
-
 }
 
 function generateBoard() {
@@ -47,16 +46,22 @@ function generateBoard() {
     // Fetch data(mine positions) from JSON
     // Generate the squares according to JSON rules
     generateTiles(numberOfSquares);
+    calculateBombsAround(numberOfSquares);
 }
 
 function generateTiles(numberOfSquares) {
+    let n = 0;
     for(let x = 0; x < numberOfSquares; x++) {
         for(let y = 0; y < numberOfSquares; y++){
             const tile = new Tile(x, y);
             determineTileType(tile, x, y);
+            tile.setAttribute("x", y);
+            tile.setAttribute("y", x);
+            tile.id = n;
             const tileCounter = addTileCounter(tile);
             addTileEventListener(tile, tileCounter);
             gameBoard.appendChild(tile);
+            n++;
         }
     }
 }
@@ -77,9 +82,9 @@ function determineTileType(tile, x, y) {
     const containsCoords = bombCoords.some(coord => coord[0] === tileCoords[0] && coord[1] === tileCoords[1]);
 
     if (containsCoords) {
-        tile.id = "Bomb"
+        tile.setAttribute("bomb", 1);
     } else {
-        tile.id = "Empty";
+        tile.setAttribute("bomb", 0);
     }
 
     tile.style.backgroundImage = "url(files/art/Full.png)";
@@ -95,17 +100,22 @@ function addTileEventListener(tile, tileCounter){
 function revealTile(tile, tileCounter){
     // TODO ak dragneme na tile odhalovac bomb, tak bombu zneskodnime
     // TODO ak dragneme odhalovac empty tilov na bombu tak bomba jebne a prehrali sme
-
-    if(tile.id === "Bomb"){
+    if(tile.getAttribute("bomb") == 1){
         tile.style.backgroundImage = "url(files/art/MineEx.png)";
         tile.style.backgroundSize = 'cover';
-    }else if(tile.id === "Empty"){
+    }else if(tile.getAttribute("bomb") == 0 && tile.getAttribute("show") != 1){
         tile.style.backgroundImage = "url(files/art/Empty.png)";
         tile.style.backgroundSize = 'cover';
+        tile.setAttribute("show", 1);
         // TODO reveal all empty tiles within area
         // TODO calculate number of mines within 1 tile
             // TODO set tileCounter.innerHTML = "numberOfNeighboringMnes";
-        
+        if (tile.getAttribute("numberOfNeighboringMines") != 0){
+            const newContent = document.createTextNode(tile.getAttribute("numberOfNeighboringMines"));
+            tile.appendChild(newContent); 
+        } else if (tile.getAttribute("numberOfNeighboringMines") == 0) {
+            revealEmpty(tile);
+        }
     }
 }
 
@@ -146,6 +156,62 @@ quitButton.addEventListener('click', function() {
 
 // TODO calculate the number of bombs around each tile
     // change innerHTML to this number
- 
+function calculateBombsAround(numberOfSquares) {
+    for(let i = 0; i < numberOfSquares*numberOfSquares; i++){
+        var tile = document.getElementById(i);
+        if (tile.getAttribute("bomb") == 0) {
+            tile.setAttribute("numberOfNeighboringMines", checkDirections(tile, numberOfSquares));
+        }
+    }
+}
+
+function revealEmpty(tile) {
+    if ()
+}
+
+function checkDirections(tile, numberOfSquares) {
+    var mines = 0;
+    if (tile.getAttribute("x") != 0){
+        if (document.getElementById(Number(tile.id)-1).getAttribute("bomb") == 1){
+            mines++;
+        }        
+    }
+    if (tile.getAttribute("x") != (numberOfSquares-1)){
+        if (document.getElementById(Number(tile.id)+1).getAttribute("bomb") == 1){
+            mines++;
+        }    
+    }
+    if (tile.getAttribute("x") != 0 && tile.getAttribute("y") != 0){
+        if (document.getElementById(Number(tile.id)-numberOfSquares-1).getAttribute("bomb") == 1){
+            mines++;
+        }    
+    }
+    if (tile.getAttribute("y") != 0){
+        if (document.getElementById(Number(tile.id)-numberOfSquares).getAttribute("bomb") == 1){
+            mines++;
+        }    
+    }
+    if (tile.getAttribute("x") != (numberOfSquares-1) && tile.getAttribute("y") != 0){
+        if (document.getElementById(Number(tile.id)-numberOfSquares+1).getAttribute("bomb") == 1){
+            mines++;
+        }    
+    }
+    if (tile.getAttribute("x") != 0 && tile.getAttribute("y") != (numberOfSquares-1)){
+        if (document.getElementById(Number(tile.id)+numberOfSquares-1).getAttribute("bomb") == 1){
+            mines++;
+        }    
+    }
+    if (tile.getAttribute("y") != (numberOfSquares-1)){
+        if (document.getElementById(Number(tile.id)+numberOfSquares).getAttribute("bomb") == 1){
+            mines++;
+        }    
+    }
+    if (tile.getAttribute("x") != (numberOfSquares-1) && tile.getAttribute("y") != (numberOfSquares-1)){
+        if (document.getElementById(Number(tile.id)+numberOfSquares+1).getAttribute("bomb") == 1){
+            mines++;
+        }    
+    }
+    return mines;
+}
 
 

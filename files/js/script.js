@@ -340,6 +340,13 @@ function defuseBomb(tile){
 
 function checkForWin(){
     if(minesLeft == 0){
-        console.log("You win");
+        console.log("Level won!");
+        nextLevel();
     }
+}
+
+function nextLevel(){
+    // currentLevel = TODO
+    // gameBoard.innerHTML = "";
+    // mainGameLoop();
 }

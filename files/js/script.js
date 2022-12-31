@@ -11,7 +11,6 @@ if ("serviceWorker" in navigator) {
 }
 // -----    -----
 
-var currentLevel = 0;
 var JSONdata;
 
 // Zatial tunak citame ten JSON
@@ -29,12 +28,21 @@ const gameBoard = document.getElementById('game-board');
 const easyButton = document.getElementById('easy');
 const hardButton = document.getElementById('hard');
 const quitButton = document.getElementById('quit');
+const mineCoubter = document.getElementById('mine-counter');
 var difficulty = 'easy';
 var gameOver = false;
+var currentLevel = 1;
+var minesLeft = 0;
 
 function mainGameLoop() {
     showGameBoard();
     generateBoard();
+    minesLeft = JSONdata[currentLevel].bombCoords.length;
+    updateMineCounter();
+}
+
+function updateMineCounter() {    
+    mineCoubter.innerHTML = minesLeft;
 }
 
 function generateBoard() {
@@ -140,27 +148,25 @@ function showGameBoard() {
 
 easyButton.addEventListener('click', function () {
     difficulty = 'easy';
-    document.getElementById("main-menu").style.display = "none";
-    document.getElementById("easy-menu").style.display = "flex";
-    //mainGameLoop();
+    // document.getElementById("main-menu").style.display = "none";
+    // document.getElementById("easy-menu").style.display = "flex";
+    mainGameLoop();
 });
 
 hardButton.addEventListener('click', function () {
     difficulty = 'hard';
-    document.getElementById("main-menu").style.display = "none";
-    document.getElementById("hard-menu").style.display = "flex";
-    //mainGameLoop();
+    // document.getElementById("main-menu").style.display = "none";
+    // document.getElementById("hard-menu").style.display = "flex";
+    mainGameLoop();
 });
 
 quitButton.addEventListener('click', function () {
     gameBoard.innerHTML = '';
-    document.getElementById("easy-menu").style.display = "none";
-    document.getElementById("hard-menu").style.display = "none";
+    // document.getElementById("easy-menu").style.display = "none";
+    // document.getElementById("hard-menu").style.display = "none";
     showMainMenu();
 });
 
-// TODO calculate the number of bombs around each tile
-// change innerHTML to this number
 function calculateBombsAround(numberOfSquares) {
     for (let i = 0; i < numberOfSquares * numberOfSquares; i++) {
         var tile = document.getElementById(i);

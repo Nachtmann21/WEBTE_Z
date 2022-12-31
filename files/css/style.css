@@ -2,15 +2,38 @@ body {
     background-color: teal;
 }
 
+.UI {
+    display: flex;
+    flex-flow: row;
+    background-color: aliceblue;
+    width: 100%;
+    height: 100px;
+    border-top: 5px solid black;
+    text-align: center;
+}
+
+.UI *{
+    width: 33.3%;
+}
+
 .container {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 610px;
+    height: 710px;
+    background-color: rgb(0, 0, 0);
+    padding: 5px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 610px;
-    height: 610px;
-    background-color: rgb(0, 0, 0);
-    padding: 5px;;
+}
+
+#status {
+    width: 95px;
+    height: 95px;
 }
 
 #game-board, #main-menu, #easy-menu, #hard-menu {
@@ -71,6 +94,7 @@ body {
 
 @media (max-width: 500px) {
     .container {
+        /* TODO responzivita */
         width: 200px;
         height: 200px;
     }

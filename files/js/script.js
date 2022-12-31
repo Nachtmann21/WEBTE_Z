@@ -133,7 +133,7 @@ function revealTile(tile, numberOfSquares) {
         tile.style.backgroundSize = 'cover';
         tile.setAttribute("show", 1);
         handleGameOver();
-    } else if (tile.getAttribute("bomb") != 1) {
+    } else if (tile.getAttribute("bomb") != 1 && tile.getAttribute("show") != 1) {
         tile.style.backgroundImage = "url(files/art/Empty.png)";
         tile.style.backgroundSize = 'cover';
         tile.setAttribute("show", 1);
@@ -184,6 +184,7 @@ quitButton.addEventListener('click', function () {
     // document.getElementById("easy-menu").style.display = "none";
     // document.getElementById("hard-menu").style.display = "none";
     showMainMenu();
+    statusImg.src = "files/art/Smile.png";
 });
 
 function calculateBombsAround(numberOfSquares) {
@@ -287,8 +288,14 @@ function checkDirections(tile, numberOfSquares) {
     return mines;
 }
 
-function log(){
-    console.log("log");
+function resetLevel(){
+    if(statusImg.src.substring(statusImg.src.length - 7) == "Sad.png"){
+        gameBoard.innerHTML = "";
+        mainGameLoop();
+        console.log("Resetting Level");
+    } else {
+        console.log("Cannot reset level, game is not over");
+    }
 }
 
 // Drag and drop 

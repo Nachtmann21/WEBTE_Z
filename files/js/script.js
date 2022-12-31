@@ -140,16 +140,22 @@ function showGameBoard() {
 
 easyButton.addEventListener('click', function () {
     difficulty = 'easy';
-    mainGameLoop();
+    document.getElementById("main-menu").style.display = "none";
+    document.getElementById("easy-menu").style.display = "flex";
+    //mainGameLoop();
 });
 
 hardButton.addEventListener('click', function () {
     difficulty = 'hard';
-    mainGameLoop();
+    document.getElementById("main-menu").style.display = "none";
+    document.getElementById("hard-menu").style.display = "flex";
+    //mainGameLoop();
 });
 
 quitButton.addEventListener('click', function () {
     gameBoard.innerHTML = '';
+    document.getElementById("easy-menu").style.display = "none";
+    document.getElementById("hard-menu").style.display = "none";
     showMainMenu();
 });
 

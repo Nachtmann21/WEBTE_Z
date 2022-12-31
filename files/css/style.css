@@ -13,7 +13,7 @@ body {
     padding: 5px;;
 }
 
-#game-board, #main-menu {
+#game-board, #main-menu, #easy-menu, #hard-menu {
     width: 100%;
     height: 100%;
 }
@@ -33,7 +33,15 @@ body {
     align-items: center;
 }
 
-#easy, #hard {
+#easy-menu, #hard-menu {
+    background-color: wheat;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#easy, #hard, #easy-menu button, #hard-menu button {
     margin: 10px;
     width: 100px;
 }

@@ -29,16 +29,32 @@ const easyButton = document.getElementById('easy');
 const hardButton = document.getElementById('hard');
 const quitButton = document.getElementById('quit');
 const mineCoubter = document.getElementById('mine-counter');
+const statusImg = document.getElementById('status');
 var difficulty = 'easy';
 var gameOver = false;
 var currentLevel = 1;
 var minesLeft = 0;
 
 function mainGameLoop() {
+    gameOver = false;
     showGameBoard();
     generateBoard();
     getMineCount();
     updateMineCounter();
+    updateStatusImg();
+}
+
+function handleGameOver(){
+    gameOver = true;
+    updateStatusImg();
+}
+
+
+function updateStatusImg() {
+    if(!gameOver)
+        statusImg.src = "files/art/Smile.png";
+    else
+        statusImg.src = "files/art/Sad.png";
 }
 
 function getMineCount() {
@@ -55,8 +71,6 @@ function generateBoard() {
     gameBoard.style.gridTemplateColumns = `repeat(${numberOfSquares}, 1fr)`;
     gameBoard.style.gridTemplateRows = `repeat(${numberOfSquares}, 1fr)`;
 
-    // Fetch data(mine positions) from JSON
-    // Generate the squares according to JSON rules
     generateTiles(numberOfSquares);
     calculateBombsAround(numberOfSquares);
 }
@@ -105,27 +119,24 @@ function determineTileType(tile, x, y) {
 
 function addTileEventListener(tile, numberOfSquares) {
     tile.addEventListener("click", function () {
-        revealTile(tile, numberOfSquares);
+        if(!gameOver)
+            revealTile(tile, numberOfSquares);
     });
     tile.addEventListener('dragover', function(event) {
-        // Allow an object to be dropped on the tile
-        event.preventDefault();
+        event.preventDefault(); // Allow an object to be dropped on the tile
     });
 }
 
 function revealTile(tile, numberOfSquares) {
-    // TODO ak dragneme na tile odhalovac bomb, tak bombu zneskodnime
-    // TODO ak dragneme odhalovac empty tilov na bombu tak bomba jebne a prehrali sme
-    if (tile.getAttribute("bomb") == 1) {
+    if (tile.getAttribute("bomb") == 1 && tile.getAttribute("show") != 1) {
         tile.style.backgroundImage = "url(files/art/MineEx.png)";
         tile.style.backgroundSize = 'cover';
-    } else if (tile.getAttribute("bomb") == 0 && tile.getAttribute("show") != 1) {
+        tile.setAttribute("show", 1);
+        handleGameOver();
+    } else if (tile.getAttribute("bomb") != 1) {
         tile.style.backgroundImage = "url(files/art/Empty.png)";
         tile.style.backgroundSize = 'cover';
         tile.setAttribute("show", 1);
-        // TODO reveal all empty tiles within area
-        // TODO calculate number of mines within 1 tile
-        // TODO set tileCounter.innerHTML = "numberOfNeighboringMnes";
         if (tile.getAttribute("numberOfNeighboringMines") != 0) {
             const newContent = document.createTextNode(tile.getAttribute("numberOfNeighboringMines"));
             tile.appendChild(newContent);
@@ -296,13 +307,32 @@ bombDefuser.addEventListener('dragend', function(event) {
 });
 
 function drop(event) {
-    console.log("Dropped");
-    // This function will be called when the draggable object is dropped on the tile.
-    // You can use this function to get the data that was transferred when the object was dropped.
-    const data = event.dataTransfer.getData('text/plain');
-  
-    // You can also use this function to specify custom behavior when the object is dropped on the tile.
-    // event.target.revealTile();
+    console.log("Defuse Attempt");
+    const isBomb = event.target.getAttribute("bomb");
+    const isRevealed = event.target.getAttribute("show");
+
+    if(isBomb == 1 && isRevealed != 1){
+        // defuse bomb and decease bomb count, if bomb count is 0, win
+        defuseBomb(event.target);
+        console.log("Bomb defused");
+        checkForWin();
+    } else if(isBomb == 0 && isRevealed != 1){
+        // Lose defuser and end game
+        console.log("Bomb not defused");
+    }
 }
 
+function defuseBomb(tile){
+    tile.style.backgroundImage = "url(files/art/Flag.png)";
+    tile.style.backgroundSize = 'cover';
+    tile.setAttribute("show", 1);
 
+    minesLeft--;
+    updateMineCounter();
+}
+
+function checkForWin(){
+    if(minesLeft == 0){
+        console.log("You win");
+    }
+}

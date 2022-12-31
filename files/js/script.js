@@ -37,12 +37,16 @@ var minesLeft = 0;
 function mainGameLoop() {
     showGameBoard();
     generateBoard();
-    minesLeft = JSONdata[currentLevel].bombCoords.length;
+    getMineCount();
     updateMineCounter();
 }
 
+function getMineCount() {
+    minesLeft = JSONdata[currentLevel].bombCoords.length;
+}
+
 function updateMineCounter() {    
-    mineCoubter.innerHTML = minesLeft;
+    mineCoubter.innerHTML = `Mines left: ${minesLeft}`;
 }
 
 function generateBoard() {
@@ -65,9 +69,9 @@ function generateTiles(numberOfSquares) {
             determineTileType(tile, x, y);
             tile.setAttribute("x", y);
             tile.setAttribute("y", x);
+            tile.setAttribute("ondrop", "drop(event)");
             tile.id = n;
-            const tileCounter = addTileCounter(tile);
-            addTileEventListener(tile, tileCounter, numberOfSquares);
+            addTileEventListener(tile, numberOfSquares);
             gameBoard.appendChild(tile);
             n++;
         }
@@ -75,7 +79,7 @@ function generateTiles(numberOfSquares) {
 }
 
 class Tile {
-    constructor(x, y) {
+    constructor() {
         const tile = document.createElement('div');
         tile.classList.add('tile');
         tile.style.width = `95%`;
@@ -99,13 +103,17 @@ function determineTileType(tile, x, y) {
     tile.style.backgroundSize = 'cover';
 }
 
-function addTileEventListener(tile, tileCounter, numberOfSquares) {
+function addTileEventListener(tile, numberOfSquares) {
     tile.addEventListener("click", function () {
-        revealTile(tile, tileCounter, numberOfSquares);
+        revealTile(tile, numberOfSquares);
+    });
+    tile.addEventListener('dragover', function(event) {
+        // Allow an object to be dropped on the tile
+        event.preventDefault();
     });
 }
 
-function revealTile(tile, tileCounter, numberOfSquares) {
+function revealTile(tile, numberOfSquares) {
     // TODO ak dragneme na tile odhalovac bomb, tak bombu zneskodnime
     // TODO ak dragneme odhalovac empty tilov na bombu tak bomba jebne a prehrali sme
     if (tile.getAttribute("bomb") == 1) {
@@ -266,6 +274,35 @@ function checkDirections(tile, numberOfSquares) {
         }
     }
     return mines;
+}
+
+function log(){
+    console.log("log");
+}
+
+// Drag and drop 
+const bombDefuser = document.getElementById('defuser');
+
+bombDefuser.addEventListener('dragstart', function(event) {
+    console.log('Defuser drag start');
+});
+
+bombDefuser.addEventListener('drag', function(event) {
+  console.log("Defuser being dragged");
+});
+
+bombDefuser.addEventListener('dragend', function(event) {
+  console.log("Defuser drag end");
+});
+
+function drop(event) {
+    console.log("Dropped");
+    // This function will be called when the draggable object is dropped on the tile.
+    // You can use this function to get the data that was transferred when the object was dropped.
+    const data = event.dataTransfer.getData('text/plain');
+  
+    // You can also use this function to specify custom behavior when the object is dropped on the tile.
+    // event.target.revealTile();
 }
 
 

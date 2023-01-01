@@ -43,7 +43,7 @@ const gameBoard = document.getElementById('game-board');
 const easyButton = document.getElementById('easy');
 const hardButton = document.getElementById('hard');
 const quitButton = document.getElementById('quit');
-const mineCoubter = document.getElementById('mine-counter');
+const mineCounter = document.getElementById('mine-counter');
 const statusImg = document.getElementById('status');
 var difficulty = 'easy';
 var gameOver = false;
@@ -77,7 +77,7 @@ function getMineCount() {
 }
 
 function updateMineCounter() {    
-    mineCoubter.innerHTML = `Mines left: ${minesLeft}`;
+    mineCounter.innerHTML = `Mines left: ${minesLeft}`;
 }
 
 function generateBoard() {
@@ -200,6 +200,7 @@ quitButton.addEventListener('click', function () {
     // document.getElementById("hard-menu").style.display = "none";
     currentLevel = 0;
     completedLevels = [];
+    mineCounter.innerHTML = `Mines left: `;
     showMainMenu();
     statusImg.src = "files/art/Smile.png";
 });

@@ -13,6 +13,9 @@ if ("serviceWorker" in navigator) {
 
 var JSONdataEasy;
 var JSONdataHard;
+var numberOfEasyLevels;
+var numberOfHardLevels;
+var completedLevels = [];
 
 // Zatial tunak citame ten JSON
 fetch('./files/data/easy.json')
@@ -20,6 +23,7 @@ fetch('./files/data/easy.json')
     return response.json();
 }).then(data => {
     JSONdataEasy = data;
+    numberOfEasyLevels = data.length;
 }).catch(err => {
     console.log("JSON error " + err);
 });
@@ -29,6 +33,7 @@ fetch('./files/data/hard.json')
     return response.json();
 }).then(data => {
     JSONdataHard = data;
+    numberOfHardLevels = data.length;
 }).catch(err => {
     console.log("JSON error " + err);
 });
@@ -193,6 +198,8 @@ quitButton.addEventListener('click', function () {
     gameBoard.innerHTML = '';
     // document.getElementById("easy-menu").style.display = "none";
     // document.getElementById("hard-menu").style.display = "none";
+    currentLevel = 0;
+    completedLevels = [];
     showMainMenu();
     statusImg.src = "files/art/Smile.png";
 });
@@ -356,7 +363,48 @@ function checkForWin(){
 }
 
 function nextLevel(){
-    // currentLevel = TODO
-    // gameBoard.innerHTML = "";
-    // mainGameLoop();
+    completedLevels.push(currentLevel);
+    currentLevel = difficulty === "easy" ? getNewLevel(numberOfEasyLevels) : getNewLevel(numberOfHardLevels);
+    gameBoard.innerHTML = "";
+    console.log("Completed levels: " + completedLevels);
+    console.log("Current level: " + currentLevel);
+    mainGameLoop();
 }
+
+function getNewLevel(numberOfLevels){
+    if (completedLevels.length === numberOfLevels) {
+        // Reset the array of completed levels if all levels have been completed
+        completedLevels = [];
+      }
+
+    while (true) {
+        const level = Math.floor(Math.random() * numberOfLevels);
+        if (!completedLevels.includes(level)) {
+          return level;
+        }
+      }    
+}
+
+
+
+// Nieco taketo na daylight sensor, might not work, uvidime
+// // Check if the Sensor API is supported
+// if ('AmbientLightSensor' in window) {
+//     // Create a new instance of the AmbientLightSensor
+//     const sensor = new AmbientLightSensor();
+    
+//     // Set up an event listener to detect changes in the ambient light level
+//     sensor.onreading = () => {
+//       // Check the light level
+//       if (sensor.illuminance < 50) {
+//         // Set the background color to black if the light level is low
+//         document.body.style.backgroundColor = 'black';
+//       } else {
+//         // Set the background color to white if the light level is high
+//         document.body.style.backgroundColor = 'white';
+//       }
+//     }
+    
+//     // Start the sensor
+//     sensor.start();
+//   }

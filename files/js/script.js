@@ -32,7 +32,7 @@ const mineCoubter = document.getElementById('mine-counter');
 const statusImg = document.getElementById('status');
 var difficulty = 'easy';
 var gameOver = false;
-var currentLevel = 1;
+var currentLevel = 0;
 var minesLeft = 0;
 
 function mainGameLoop() {

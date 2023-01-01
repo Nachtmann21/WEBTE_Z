@@ -11,17 +11,27 @@ if ("serviceWorker" in navigator) {
 }
 // -----    -----
 
-var JSONdata;
+var JSONdataEasy;
+var JSONdataHard;
 
 // Zatial tunak citame ten JSON
 fetch('./files/data/easy.json')
-    .then(response => {
-        return response.json();
-    }).then(data => {
-        JSONdata = data;
-    }).catch(err => {
-        console.log("JSON error " + err);
-    });
+.then(response => {
+    return response.json();
+}).then(data => {
+    JSONdataEasy = data;
+}).catch(err => {
+    console.log("JSON error " + err);
+});
+
+fetch('./files/data/hard.json')
+.then(response => {
+    return response.json();
+}).then(data => {
+    JSONdataHard = data;
+}).catch(err => {
+    console.log("JSON error " + err);
+});
 
 const mainMenu = document.getElementById('main-menu');
 const gameBoard = document.getElementById('game-board');
@@ -58,7 +68,7 @@ function updateStatusImg() {
 }
 
 function getMineCount() {
-    minesLeft = JSONdata[currentLevel].bombCoords.length;
+    minesLeft = difficulty === "easy" ? JSONdataEasy[currentLevel].bombCoords.length : JSONdataHard[currentLevel].bombCoords.length;
 }
 
 function updateMineCounter() {    
@@ -104,7 +114,7 @@ class Tile {
 
 function determineTileType(tile, x, y) {
     const tileCoords = [x, y];
-    const bombCoords = JSONdata[currentLevel].bombCoords;
+    const bombCoords = difficulty === 'easy' ? JSONdataEasy[currentLevel].bombCoords : JSONdataHard[currentLevel].bombCoords;
     const containsCoords = bombCoords.some(coord => coord[0] === tileCoords[0] && coord[1] === tileCoords[1]);
 
     if (containsCoords) {

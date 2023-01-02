@@ -42,6 +42,7 @@ const mainMenu = document.getElementById('main-menu');
 const gameBoard = document.getElementById('game-board');
 const easyButton = document.getElementById('easy');
 const hardButton = document.getElementById('hard');
+const guideButton = document.getElementById('guide');
 const quitButton = document.getElementById('quit');
 const mineCounter = document.getElementById('mine-counter');
 const statusImg = document.getElementById('status');
@@ -49,6 +50,7 @@ var difficulty = 'easy';
 var gameOver = false;
 var currentLevel = 0;
 var minesLeft = 0;
+const numberColor = ["blue", "green", "red", "purple", "maroon", "turquoise", "black", "gray"];
 
 function mainGameLoop() {
     gameOver = false;
@@ -154,8 +156,9 @@ function revealTile(tile, numberOfSquares) {
         tile.style.backgroundSize = 'cover';
         tile.setAttribute("show", 1);
         if (tile.getAttribute("numberOfNeighboringMines") != 0) {
-            const newContent = document.createTextNode(tile.getAttribute("numberOfNeighboringMines"));
+            var newContent = document.createTextNode(tile.getAttribute("numberOfNeighboringMines"));
             tile.appendChild(newContent);
+            tile.style.color = numberColor[Number(tile.getAttribute("numberOfNeighboringMines"))-1];
         } else if (tile.getAttribute("numberOfNeighboringMines") == 0) {
             findEmpty(tile, numberOfSquares);
         }
@@ -174,6 +177,7 @@ function addTileCounter(tile) {
 function showMainMenu() {
     mainMenu.style.display = 'flex';
     gameBoard.style.display = 'none';
+    document.getElementById("guide-menu").style.display = "none";
 }
 
 // Show the game board and hide the main menu
@@ -207,6 +211,11 @@ quitButton.addEventListener('click', function () {
     statusImg.src = "files/art/Smile.png";
 });
 
+guideButton.addEventListener('click', function () {
+    mainMenu.style.display = 'none';
+    document.getElementById("guide-menu").style.display = "flex";
+});
+
 function calculateBombsAround(numberOfSquares) {
     for (let i = 0; i < numberOfSquares * numberOfSquares; i++) {
         var tile = document.getElementById(i);
@@ -221,29 +230,30 @@ function findEmpty(tile, numberOfSquares) {
     const notChecked = [];
     notChecked.push(tile);
     while (notChecked.length != 0) {
+        if (document.getElementById(Number(notChecked[0].id)).getAttribute("numberOfNeighboringMines") == 0){
         if (notChecked[0].getAttribute("x") != 0) {
-            if (document.getElementById(Number(notChecked[0].id) - 1).getAttribute("show") != 1 && document.getElementById(Number(notChecked[0].id) - 1).getAttribute("numberOfNeighboringMines") == 0) {
+            if (document.getElementById(Number(notChecked[0].id) - 1).getAttribute("show") != 1) {
                 if (!notChecked.includes(document.getElementById(Number(notChecked[0].id) - 1)) && !checked.includes(document.getElementById(Number(notChecked[0].id) - 1))) {
                     notChecked.push(document.getElementById(Number(notChecked[0].id) - 1));
                 }
             }
         }
         if (notChecked[0].getAttribute("x") != (numberOfSquares - 1)) {
-            if (document.getElementById(Number(notChecked[0].id) + 1).getAttribute("show") != 1 && document.getElementById(Number(notChecked[0].id) + 1).getAttribute("numberOfNeighboringMines") == 0) {
+            if (document.getElementById(Number(notChecked[0].id) + 1).getAttribute("show") != 1) {
                 if (!notChecked.includes(document.getElementById(Number(notChecked[0].id) + 1)) && !checked.includes(document.getElementById(Number(notChecked[0].id) + 1))) {
                     notChecked.push(document.getElementById(Number(notChecked[0].id) + 1));
                 }
             }
         }
         if (notChecked[0].getAttribute("y") != 0) {
-            if (document.getElementById(Number(notChecked[0].id) - numberOfSquares).getAttribute("show") != 1 && document.getElementById(Number(notChecked[0].id) - numberOfSquares).getAttribute("numberOfNeighboringMines") == 0) {
+            if (document.getElementById(Number(notChecked[0].id) - numberOfSquares).getAttribute("show") != 1) {
                 if (!notChecked.includes(document.getElementById(Number(notChecked[0].id) - numberOfSquares)) && !checked.includes(document.getElementById(Number(notChecked[0].id) - numberOfSquares))) {
                     notChecked.push(document.getElementById(Number(notChecked[0].id) - numberOfSquares));
                 }
             }
         }
         if (notChecked[0].getAttribute("y") != (numberOfSquares - 1)) {
-            if (document.getElementById(Number(notChecked[0].id) + numberOfSquares).getAttribute("show") != 1 && document.getElementById(Number(notChecked[0].id) + numberOfSquares).getAttribute("numberOfNeighboringMines") == 0) {
+            if (document.getElementById(Number(notChecked[0].id) + numberOfSquares).getAttribute("show") != 1) {
                 if (!notChecked.includes(document.getElementById(Number(notChecked[0].id) + numberOfSquares)) && !checked.includes(document.getElementById(Number(notChecked[0].id) + numberOfSquares))) {
                     notChecked.push(document.getElementById(Number(notChecked[0].id) + numberOfSquares));
                 }
@@ -251,6 +261,10 @@ function findEmpty(tile, numberOfSquares) {
         }
         checked.push(notChecked[0]);
         notChecked.shift();
+    } else if (document.getElementById(Number(notChecked[0].id)).getAttribute("numberOfNeighboringMines") > 0) {
+        checked.push(notChecked[0]);
+        notChecked.shift();
+    }
     }
     for (i in checked) {
         revealEmpty(checked[i]);
@@ -259,8 +273,13 @@ function findEmpty(tile, numberOfSquares) {
 
 function revealEmpty(tile) {
     tile.style.backgroundImage = "url(files/art/Empty.png)";
-    tile.style.backgroundSize = 'cover';
-    tile.setAttribute("show", 1);
+        tile.style.backgroundSize = 'cover';
+        tile.setAttribute("show", 1);
+        if (tile.getAttribute("numberOfNeighboringMines") != 0) {
+            const newContent = document.createTextNode(tile.getAttribute("numberOfNeighboringMines"));
+            tile.appendChild(newContent);
+            tile.style.color = numberColor[Number(tile.getAttribute("numberOfNeighboringMines"))-1];
+        }
 }
 
 function checkDirections(tile, numberOfSquares) {

@@ -147,6 +147,7 @@ function revealTile(tile, numberOfSquares) {
         tile.style.backgroundImage = "url(files/art/MineEx.png)";
         tile.style.backgroundSize = 'cover';
         tile.setAttribute("show", 1);
+        mineCounter.innerHTML = "Bomb exploded";
         handleGameOver();
     } else if (tile.getAttribute("bomb") != 1 && tile.getAttribute("show") != 1) {
         tile.style.backgroundImage = "url(files/art/Empty.png)";
@@ -155,8 +156,9 @@ function revealTile(tile, numberOfSquares) {
         if (tile.getAttribute("numberOfNeighboringMines") != 0) {
             const newContent = document.createTextNode(tile.getAttribute("numberOfNeighboringMines"));
             tile.appendChild(newContent);
+        } else if (tile.getAttribute("numberOfNeighboringMines") == 0) {
+            findEmpty(tile, numberOfSquares);
         }
-        findEmpty(tile, numberOfSquares);
     }
 }
 
@@ -200,7 +202,7 @@ quitButton.addEventListener('click', function () {
     // document.getElementById("hard-menu").style.display = "none";
     currentLevel = 0;
     completedLevels = [];
-    mineCounter.innerHTML = `Mines left: `;
+    mineCounter.innerHTML = "";
     showMainMenu();
     statusImg.src = "files/art/Smile.png";
 });
@@ -332,7 +334,8 @@ bombDefuser.addEventListener('dragend', function(event) {
 });
 
 function drop(event) {
-    console.log("Defuse Attempt");
+    if (gameOver == false){
+        console.log("Defuse Attempt");
     const isBomb = event.target.getAttribute("bomb");
     const isRevealed = event.target.getAttribute("show");
 
@@ -344,7 +347,18 @@ function drop(event) {
     } else if(isBomb == 0 && isRevealed != 1){
         // Lose defuser and end game
         console.log("Bomb not defused");
+        event.target.style.backgroundImage = "url(files/art/Empty.png)";
+        event.target.style.backgroundSize = 'cover';
+        event.target.setAttribute("show", 1);
+        if (event.target.getAttribute("numberOfNeighboringMines") != 0) {
+            const newContent = document.createTextNode(event.target.getAttribute("numberOfNeighboringMines"));
+            event.target.appendChild(newContent);
+        }
+        mineCounter.innerHTML = "Defused non-bomb tile";
+        handleGameOver();
     }
+    }
+    
 }
 
 function defuseBomb(tile){

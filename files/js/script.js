@@ -450,24 +450,24 @@ function getNewLevel(numberOfLevels){
 
 
 
-// Nieco taketo na daylight sensor, might not work, uvidime
-// // Check if the Sensor API is supported
-// if ('AmbientLightSensor' in window) {
-//     // Create a new instance of the AmbientLightSensor
-//     const sensor = new AmbientLightSensor();
+//Nieco taketo na daylight sensor, might not work, uvidime
+// Check if the Sensor API is supported
+if ('AmbientLightSensor' in window) {
+    // Create a new instance of the AmbientLightSensor
+    const sensor = new AmbientLightSensor();
     
-//     // Set up an event listener to detect changes in the ambient light level
-//     sensor.onreading = () => {
-//       // Check the light level
-//       if (sensor.illuminance < 50) {
-//         // Set the background color to black if the light level is low
-//         document.body.style.backgroundColor = 'black';
-//       } else {
-//         // Set the background color to white if the light level is high
-//         document.body.style.backgroundColor = 'white';
-//       }
-//     }
+    // Set up an event listener to detect changes in the ambient light level
+    sensor.onreading = () => {
+      // Check the light level
+      if (sensor.illuminance < 50) {
+        // Set the background color to black if the light level is low
+        document.body.style.backgroundColor = 'black';
+      } else {
+        // Set the background color to white if the light level is high
+        document.body.style.backgroundColor = 'white';
+      }
+    }
     
-//     // Start the sensor
-//     sensor.start();
-//   }
+    // Start the sensor
+    sensor.start();
+  }

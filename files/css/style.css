@@ -127,3 +127,13 @@ body {
         height: 200px;
     }
 }
+
+@media print{    
+    #main-menu, .UI, #quit, #help, #solution, #gameboard{
+        display: none;
+    }
+
+    .container {
+        height: 0;
+    }
+}

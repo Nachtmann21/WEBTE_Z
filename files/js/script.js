@@ -45,6 +45,8 @@ const hardButton = document.getElementById('hard');
 const guideButton = document.getElementById('guide');
 const quitButton = document.getElementById('quit');
 const mineCounter = document.getElementById('mine-counter');
+const helpButton = document.getElementById("help");
+const solutionButton = document.getElementById("solution");
 const statusImg = document.getElementById('status');
 var difficulty = 'easy';
 var gameOver = false;
@@ -152,16 +154,21 @@ function revealTile(tile, numberOfSquares) {
         mineCounter.innerHTML = "Bomb exploded";
         handleGameOver();
     } else if (tile.getAttribute("bomb") != 1 && tile.getAttribute("show") != 1) {
-        tile.style.backgroundImage = "url(files/art/Empty.png)";
-        tile.style.backgroundSize = 'cover';
-        tile.setAttribute("show", 1);
-        if (tile.getAttribute("numberOfNeighboringMines") != 0) {
-            var newContent = document.createTextNode(tile.getAttribute("numberOfNeighboringMines"));
-            tile.appendChild(newContent);
-            tile.style.color = numberColor[Number(tile.getAttribute("numberOfNeighboringMines"))-1];
-        } else if (tile.getAttribute("numberOfNeighboringMines") == 0) {
+        reveal(tile);
+        if (tile.getAttribute("numberOfNeighboringMines") == 0) {
             findEmpty(tile, numberOfSquares);
         }
+    }
+}
+
+function reveal(tile) {
+    tile.style.backgroundImage = "url(files/art/Empty.png)";
+    tile.style.backgroundSize = 'cover';
+    tile.setAttribute("show", 1);
+    if (tile.getAttribute("numberOfNeighboringMines") != 0) {
+        const newContent = document.createTextNode(tile.getAttribute("numberOfNeighboringMines"));
+        tile.appendChild(newContent);
+        tile.style.color = numberColor[Number(tile.getAttribute("numberOfNeighboringMines")) - 1];
     }
 }
 
@@ -216,6 +223,39 @@ guideButton.addEventListener('click', function () {
     document.getElementById("guide-menu").style.display = "flex";
 });
 
+helpButton.addEventListener('click', function () {
+    var mines = [];
+    var tile = document.getElementById(0);
+    var n = 0;
+    while (tile) {
+        if (tile.getAttribute("bomb") == 1 && tile.getAttribute("show") != 1) {
+            mines.push(tile);
+        }
+        n++;
+        tile = document.getElementById(n);
+    }
+    defuseBomb(mines[Math.floor(Math.random() * mines.length)]);
+    if (mines.length == 1) {
+        checkForWin();
+        return;
+    }
+});
+
+solutionButton.addEventListener('click', function () {
+    var tile = document.getElementById(0);
+    var n = 0;
+    while (tile) {
+        if (tile.getAttribute("bomb") == 1) {
+            defuseBomb(tile);
+        } else {
+            reveal(tile);
+        }
+        n++;
+        tile = document.getElementById(n);
+    }
+});
+
+
 function calculateBombsAround(numberOfSquares) {
     for (let i = 0; i < numberOfSquares * numberOfSquares; i++) {
         var tile = document.getElementById(i);
@@ -267,19 +307,8 @@ function findEmpty(tile, numberOfSquares) {
     }
     }
     for (i in checked) {
-        revealEmpty(checked[i]);
+        reveal(checked[i]);
     }
-}
-
-function revealEmpty(tile) {
-    tile.style.backgroundImage = "url(files/art/Empty.png)";
-        tile.style.backgroundSize = 'cover';
-        tile.setAttribute("show", 1);
-        if (tile.getAttribute("numberOfNeighboringMines") != 0) {
-            const newContent = document.createTextNode(tile.getAttribute("numberOfNeighboringMines"));
-            tile.appendChild(newContent);
-            tile.style.color = numberColor[Number(tile.getAttribute("numberOfNeighboringMines"))-1];
-        }
 }
 
 function checkDirections(tile, numberOfSquares) {

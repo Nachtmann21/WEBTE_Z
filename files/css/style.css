@@ -2,6 +2,13 @@ body {
     background-color: teal;
 }
 
+.lock-screen {
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+    position: fixed;
+}
+
 .UI {
     display: flex;
     flex-flow: row;
@@ -23,12 +30,25 @@ body {
     align-items: center;
     width: 610px;
     height: 710px;
-    background-color: rgb(0, 0, 0);
     padding: 5px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+#buttons {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+    background-color: teal;
+    visibility: hidden;
+}
+
+#buttons button {
+    width: 100px;
+    margin: 5px;
 }
 
 #status {
@@ -51,7 +71,8 @@ body {
 
 #game-board, #main-menu, #easy-menu, #hard-menu, #guide-menu {
     width: 100%;
-    height: 100%;
+    height: 100%;   
+    border: 5px solid black;
 }
 
 #game-board, #guide-menu {
@@ -86,14 +107,6 @@ body {
     width: 100px;
 }
 
-#quit {
-    width: 100px;
-    position: absolute;
-    top: 110%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
 .tile {
     display: flex;
     background-color: rgb(166, 166, 166);
@@ -123,13 +136,13 @@ body {
 @media (max-width: 500px) {
     .container {
         /* TODO responzivita */
-        width: 200px;
-        height: 200px;
-    }
+        width: 100%;
+        height: 100%
+    }   
 }
 
 @media print{    
-    #main-menu, .UI, #quit, #help, #solution, #gameboard{
+    #main-menu, .UI, #buttons, #gameboard{
         display: none;
     }
 

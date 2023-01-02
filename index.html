@@ -13,7 +13,7 @@
     <link rel="manifest" href="manifest.json" />
 </head>
 
-<body>
+<body class="lock-screen">
     <main>        
         <!-- Hlavne "okno" hry -->
         <div class="container">
@@ -61,13 +61,15 @@
                 <div id="defuser-container">
                     <!-- Drag and drop this on bomb to defuse bomb -->
                     <p>Defuser</p>
-                    <div id="defuser" draggable="true"></div>
+                    <img src="/files/art/Flag.png" alt="defuser" id="defuser" draggable="true">
                 </div>
             </div>
             <!-- Zatial je tu ale potom to posunieme niekam relevantnejsie -->
-            <button type="button" class="btn btn-primary" id="quit">Quit</button>
-            <button type="button" class="btn btn-primary" id="help">Help</button>
-            <button type="button" class="btn btn-primary" id="solution">Solution</button>
+            <div id="buttons">
+                <button type="button" class="btn btn-primary" id="help">Help</button>
+                <button type="button" class="btn btn-primary" id="solution">Solution</button>
+                <button type="button" class="btn btn-primary" id="quit">Quit</button>
+            </div>
         </div>
     </main>
 

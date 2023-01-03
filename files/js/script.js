@@ -207,6 +207,7 @@ easyButton.addEventListener('click', function () {
 
 hardButton.addEventListener('click', function () {
     difficulty = 'hard';
+    loadFromStorage();
     mainGameLoop();
 });
 
@@ -265,9 +266,12 @@ solutionButton.addEventListener('click', function () {
 
 function loadFromStorage() {
     if (window.localStorage) {
-        if (localStorage.getItem('currentLevel')) {
-            currentLevel = parseInt(localStorage.getItem('currentLevel'));
-            completedLevels = JSON.parse(localStorage.getItem('completedLevels'));
+        if (localStorage.getItem('currentLevelEasy') && difficulty == 'easy') {
+            currentLevel = parseInt(localStorage.getItem('currentLevelEasy'));
+            completedLevels = JSON.parse(localStorage.getItem('completedLevelsEasy'));
+        } else if(localStorage.getItem('currentLevelHard') && difficulty == 'hard') {
+            currentLevel = parseInt(localStorage.getItem('currentLevelHard'));
+            completedLevels = JSON.parse(localStorage.getItem('completedLevelsHard'));
         }
     }
 }
@@ -450,8 +454,13 @@ function nextLevel() {
     // Save the completed levels and current level to local storage
     if(window.localStorage) {
         console.log("Saving to local storage");
-        localStorage.setItem("completedLevels", JSON.stringify(completedLevels));
-        localStorage.setItem("currentLevel", currentLevel);
+        if(difficulty === "easy") {
+            localStorage.setItem("completedLevelsEasy", JSON.stringify(completedLevels));
+            localStorage.setItem("currentLevelEasy", currentLevel);
+        } else if(difficulty === "hard") {
+            localStorage.setItem("completedLevelsHard", JSON.stringify(completedLevels));
+            localStorage.setItem("currentLevelHard", currentLevel);
+        }        
     }
 
     mainGameLoop();

@@ -174,14 +174,6 @@ function reveal(tile) {
     }
 }
 
-function addTileCounter(tile) {
-    const tileCounter = document.createElement("div");
-    tileCounter.classList.add("tileCounter");
-    tileCounter.innerHTML = "";
-    tile.appendChild(tileCounter);
-    return tileCounter;
-}
-
 // Show the main menu and hide the game board
 function showMainMenu() {
     mainMenu.style.display = 'flex';
@@ -289,7 +281,7 @@ function loadFromStorage() {
                 currentLevel = parseInt(localStorage.getItem('currentLevelHard'));
                 completedLevels = JSON.parse(localStorage.getItem('completedLevelsHard'));
             }else{
-                currentLevel = 0;
+                currentLevel = 0; 
                 completedLevels = [];
             }
         }

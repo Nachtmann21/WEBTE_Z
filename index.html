@@ -15,13 +15,17 @@
 
 <body class="lock-screen">
     <main>        
+        <div class="title-container">
+            <div class="title">
+                <h1>Minesweeper</h1>
+            </div>
+        </div>
         <!-- Hlavne "okno" hry -->
         <div class="container">
-            
             <div id="main-menu">    
-                <button type="button" class="btn btn-primary" id="easy">Easy</button>
-                <button type="button" class="btn btn-primary" id="hard">Hard</button>
-                <button type="button" class="btn btn-primary" id="guide">Guide</button>
+                <button type="button" class="btn btn-success" id="easy">Easy</button>
+                <button type="button" class="btn btn-success" id="hard">Hard</button>
+                <button type="button" class="btn btn-success" id="guide">Guide</button>
             </div>
             <div id="guide-menu">
                 <div id="rules">
@@ -31,6 +35,7 @@
                         <li>Odhalením míny sa hra končí.</li>
                         <li>Odhalením prázdneho štvorčeka alebo čísla hra pokračuje.</li>
                         <li>Číslo v políčku signalizuje, koľko mín sa nachádza v ôsmich okolitých poliach okolo neho.</li>
+                        <li>Pre reset levelu kliknite na smutného smajlíka.</li>
                         <li>Na označenie mín sa používa zástava v pravom spodnom rohu, ktorú hráč umiestni potiahnutím na zvolený štvorček.</li>
                         <li>Po ukončení hry "Quit" sa progress vymaže. Ak však omylom vypnete prehliadač počas hry, môžete pokračovať na naposledy spustenom levely.</li>
                  </ul>
@@ -42,7 +47,7 @@
                     <!-- Show number of mines left -->
                     <p></p>
                 </div>
-                <div>
+                <div id="smile">
                     <img src="files/art/Smile.png" alt="smile" id="status" onclick="resetLevel()">
                 </div>
                 <div id="defuser-container">
@@ -52,10 +57,10 @@
                 </div>
             </div>
             <div id="buttons">
-                <button type="button" class="btn btn-primary" id="help">Help</button>
-                <button type="button" class="btn btn-primary" id="solution">Solution</button>
-                <button type="button" class="btn btn-primary" id="quit">Save&Quit</button>
-                <button type="button" class="btn btn-primary" id="new-game">Delete Save</button>
+                <button type="button" class="btn btn-success" id="help">Help</button>
+                <button type="button" class="btn btn-success" id="solution">Solution</button>
+                <button type="button" class="btn btn-success" id="quit">Save&Quit</button>
+                <button type="button" class="btn btn-success" id="new-game">Delete Save</button>
             </div>
         </div>
     </main>

@@ -2,6 +2,21 @@ body {
     background-color: teal;
 }
 
+.title-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+h1 {
+    font-size: 70px;
+    color: #198754;
+    font-weight: 700;
+    text-shadow: 0px 0px 40px wheat;
+    -webkit-text-stroke: 2px black;
+}
+
 .lock-screen {
     height: 100%;
     overflow: hidden;
@@ -12,11 +27,19 @@ body {
 .UI {
     display: flex;
     flex-flow: row;
-    background-color: aliceblue;
+    background-color: #198754;
     width: 100%;
     height: 100px;
-    border-top: 5px solid black;
+    border: 5px solid black;
     text-align: center;
+    padding: 5px;
+    font-weight: 700;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    border: 2px solid black;
 }
 
 .UI *{
@@ -24,12 +47,13 @@ body {
 }
 
 .container {
+    margin: auto;
     display: flex;
     flex-flow: column;
     justify-content: center;
     align-items: center;
     width: 610px;
-    height: 710px;
+    height: 750px;
     padding: 5px;
     position: absolute;
     top: 50%;
@@ -63,6 +87,18 @@ body {
     align-items: center;
 }
 
+#smile {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#smile img {
+    width: 90px;
+    height: 90px;
+}
+
 #defuser {
     width: 25px;
     height: 25px;
@@ -73,6 +109,7 @@ body {
     width: 100%;
     height: 100%;   
     border: 5px solid black;
+    border-bottom: 0px;
 }
 
 #game-board, #guide-menu {
@@ -99,6 +136,7 @@ body {
 }
 
 #rules {
+    font-weight: 700;
     width: 80%; 
 }
 
@@ -114,11 +152,7 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-}
-
-.tileCounter {
-    font-size: 24px;
-    text-align: center;
+    font-size: 40px;
 }
 
 #defuser-container{
@@ -133,13 +167,120 @@ body {
 }
 
 
-@media (max-width: 500px) {
-    .container {
-        /* TODO responzivita */
-        width: 100%;
-        height: 100%
-    }   
+@media (min-width: 801px) {
+    .title-container{
+        margin-top: 10px;
+    }
+
+    h1 {
+        font-size: 80px;
+        -webkit-text-stroke: 1px black;
+    }
 }
+
+@media (max-width: 800px) {
+    .title-container{
+        margin-top: 10px;
+    }
+
+    h1 {
+        font-size: 54px;
+        -webkit-text-stroke: 1px black;
+    }
+
+    .container {
+        width: 60%;
+        height: 65%;
+    }
+    
+    #buttons button {
+        width: 90px;
+        margin: 5px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 650px) {
+    .title-container{
+        margin-top: 10px;
+    }
+
+    h1 {
+        font-size: 54px;
+        -webkit-text-stroke: 1px black;
+    }
+
+    .container {
+        width: 75%;
+        height: 65%;
+    }
+    
+    #buttons button {
+        width: 90px;
+        margin: 5px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 500px) {
+    .title-container{
+        margin-top: 10px;
+    }
+
+    h1 {
+        font-size: 54px;
+        -webkit-text-stroke: 1px black;
+    }
+
+    .container {
+        width: 85%;
+        height: 55%;
+    }
+    
+    #buttons button {
+        width: 80px;
+        margin: 5px;
+        font-size: 10px;
+    }
+}
+
+
+@media (max-width: 400px) {
+    .UI {
+        height: 50px;
+    }
+
+    .UI *{
+        font-size: 8px;
+    }
+
+    #smile img {
+        width: 35px;
+        height: 35px;
+    }
+
+
+    .title-container{
+        margin-top: 10px;
+    }
+
+    h1 {
+        font-size: 54px;
+        -webkit-text-stroke: 1px black;
+    }
+
+    .container {
+        width: 90%;
+        height: 55%;
+    }
+    
+    #buttons button {
+        width: 70px;
+        margin: 5px;
+        font-size: 8px;
+    }
+}
+
 
 @media print{    
     #main-menu, .UI, #buttons, #gameboard{

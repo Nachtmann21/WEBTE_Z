@@ -42,8 +42,9 @@ const mainMenu = document.getElementById('main-menu');
 const gameBoard = document.getElementById('game-board');
 const easyButton = document.getElementById('easy');
 const hardButton = document.getElementById('hard');
+const newGameButton = document.getElementById('new-game');
 const guideButton = document.getElementById('guide');
-const quitButton = document.getElementById('quit');
+const saveAndQuitButton = document.getElementById('quit');
 const mineCounter = document.getElementById('mine-counter');
 const helpButton = document.getElementById("help");
 const solutionButton = document.getElementById("solution");
@@ -211,13 +212,21 @@ hardButton.addEventListener('click', function () {
     mainGameLoop();
 });
 
-quitButton.addEventListener('click', function () {
+saveAndQuitButton.addEventListener('click', function () {
+    gameBoard.innerHTML = '';
+    mineCounter.innerHTML = "";
+    showMainMenu();
+    statusImg.src = "files/art/Smile.png";
+});
+
+newGameButton.addEventListener('click', function () {
     gameBoard.innerHTML = '';
     currentLevel = 0;
     completedLevels = [];
     mineCounter.innerHTML = "";
     showMainMenu();
     statusImg.src = "files/art/Smile.png";
+
     // STORAGE CLEAR
     localStorage.clear();
 });

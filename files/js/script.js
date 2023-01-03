@@ -238,6 +238,7 @@ guideButton.addEventListener('click', function () {
     document.getElementById("buttons").style.visibility = "visible";
     document.getElementById("help").style.display = "none";
     document.getElementById("solution").style.display = "none";
+    document.getElementById("new-game").style.display = "none";
 });
 
 helpButton.addEventListener('click', function () {
@@ -275,12 +276,22 @@ solutionButton.addEventListener('click', function () {
 
 function loadFromStorage() {
     if (window.localStorage) {
-        if (localStorage.getItem('currentLevelEasy') && difficulty == 'easy') {
-            currentLevel = parseInt(localStorage.getItem('currentLevelEasy'));
-            completedLevels = JSON.parse(localStorage.getItem('completedLevelsEasy'));
-        } else if(localStorage.getItem('currentLevelHard') && difficulty == 'hard') {
-            currentLevel = parseInt(localStorage.getItem('currentLevelHard'));
-            completedLevels = JSON.parse(localStorage.getItem('completedLevelsHard'));
+        if (difficulty == 'easy') {
+            if(localStorage.getItem('currentLevelEasy')){
+                currentLevel = parseInt(localStorage.getItem('currentLevelEasy'));
+                completedLevels = JSON.parse(localStorage.getItem('completedLevelsEasy'));
+            }else{
+                currentLevel = 0;
+                completedLevels = [];
+            }
+        } else if(difficulty == 'hard') {
+            if(localStorage.getItem('currentLevelHard')){
+                currentLevel = parseInt(localStorage.getItem('currentLevelHard'));
+                completedLevels = JSON.parse(localStorage.getItem('completedLevelsHard'));
+            }else{
+                currentLevel = 0;
+                completedLevels = [];
+            }
         }
     }
 }

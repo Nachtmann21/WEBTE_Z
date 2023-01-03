@@ -252,13 +252,14 @@ helpButton.addEventListener('click', function () {
 });
 
 solutionButton.addEventListener('click', function () {
-    if(!gameOver){        
+    if(!gameOver){                
         var tile = document.getElementById(0);
         var n = 0;
         while (tile) {
             if (tile.getAttribute("bomb") == 1) {
                 defuseBomb(tile);
             } else {
+                tile.innerHTML = "";
                 reveal(tile);
             }
             n++;

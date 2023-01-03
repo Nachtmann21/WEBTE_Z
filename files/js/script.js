@@ -234,20 +234,22 @@ guideButton.addEventListener('click', function () {
 });
 
 helpButton.addEventListener('click', function () {
-    var mines = [];
-    var tile = document.getElementById(0);
-    var n = 0;
-    while (tile) {
-        if (tile.getAttribute("bomb") == 1 && tile.getAttribute("show") != 1) {
-            mines.push(tile);
+    if(!gameOver){
+        var mines = [];
+        var tile = document.getElementById(0);
+        var n = 0;
+        while (tile) {
+            if (tile.getAttribute("bomb") == 1 && tile.getAttribute("show") != 1) {
+                mines.push(tile);
+            }
+            n++;
+            tile = document.getElementById(n);
         }
-        n++;
-        tile = document.getElementById(n);
-    }
-    defuseBomb(mines[Math.floor(Math.random() * mines.length)]);
-    if (mines.length == 1) {
-        checkForWin();
-        return;
+        defuseBomb(mines[Math.floor(Math.random() * mines.length)]);
+        if (mines.length == 1) {
+            checkForWin();
+            return;
+        }
     }
 });
 

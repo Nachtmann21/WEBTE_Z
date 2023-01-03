@@ -61,6 +61,7 @@ function mainGameLoop() {
     getMineCount();
     updateMineCounter();
     updateStatusImg();
+    console.log("Current level: " + currentLevel);
 }
 
 function handleGameOver() {
@@ -199,27 +200,25 @@ function showGameBoard() {
 
 easyButton.addEventListener('click', function () {
     difficulty = 'easy';
-    // document.getElementById("main-menu").style.display = "none";
-    // document.getElementById("easy-menu").style.display = "flex";
+    // Load current level and completed levels from local storage
+    loadFromStorage();
     mainGameLoop();
 });
 
 hardButton.addEventListener('click', function () {
     difficulty = 'hard';
-    // document.getElementById("main-menu").style.display = "none";
-    // document.getElementById("hard-menu").style.display = "flex";
     mainGameLoop();
 });
 
 quitButton.addEventListener('click', function () {
     gameBoard.innerHTML = '';
-    // document.getElementById("easy-menu").style.display = "none";
-    // document.getElementById("hard-menu").style.display = "none";
     currentLevel = 0;
     completedLevels = [];
     mineCounter.innerHTML = "";
     showMainMenu();
     statusImg.src = "files/art/Smile.png";
+    // STORAGE CLEAR
+    localStorage.clear();
 });
 
 //show guide menu
@@ -263,6 +262,15 @@ solutionButton.addEventListener('click', function () {
     }
 });
 
+
+function loadFromStorage() {
+    if (window.localStorage) {
+        if (localStorage.getItem('currentLevel')) {
+            currentLevel = parseInt(localStorage.getItem('currentLevel'));
+            completedLevels = JSON.parse(localStorage.getItem('completedLevels'));
+        }
+    }
+}
 
 function calculateBombsAround(numberOfSquares) {
     for (let i = 0; i < numberOfSquares * numberOfSquares; i++) {
@@ -438,6 +446,14 @@ function nextLevel() {
     gameBoard.innerHTML = "";
     console.log("Completed levels: " + completedLevels);
     console.log("Current level: " + currentLevel);
+
+    // Save the completed levels and current level to local storage
+    if(window.localStorage) {
+        console.log("Saving to local storage");
+        localStorage.setItem("completedLevels", JSON.stringify(completedLevels));
+        localStorage.setItem("currentLevel", currentLevel);
+    }
+
     mainGameLoop();
 }
 
@@ -445,6 +461,7 @@ function getNewLevel(numberOfLevels) {
     if (completedLevels.length === numberOfLevels) {
         // Reset the array of completed levels if all levels have been completed
         completedLevels = [];
+        localStorage.clear();
     }
 
     while (true) {
@@ -454,3 +471,30 @@ function getNewLevel(numberOfLevels) {
         }
     }
 }
+
+// Storage
+function storageAvailable(type) {
+    let storage;
+    try {
+        storage = window[type];
+        const x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch (e) {
+        return e instanceof DOMException && (
+            e.code === 22 ||
+            e.code === 1014 ||
+            e.name === 'QuotaExceededError' ||
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            (storage && storage.length !== 0);
+    }
+}
+
+if (storageAvailable('localStorage')) {
+    console.log("Storage available");
+  }
+  else {
+    console.log("Storage not available");
+  }

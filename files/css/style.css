@@ -281,6 +281,42 @@ h1 {
     }
 }
 
+@media (max-width: 300px) {
+    .UI {
+        height: 50px;
+    }
+
+    .UI *{
+        font-size: 8px;
+    }
+
+    #smile img {
+        width: 35px;
+        height: 35px;
+    }
+
+
+    .title-container{
+        margin-top: 10px;
+    }
+
+    h1 {
+        font-size: 34px;
+        -webkit-text-stroke: 1px black;
+    }
+
+    .container {
+        width: 90%;
+        height: 50%;
+    }
+    
+    #buttons button {
+        width: 50px;
+        margin: 5px;
+        font-size: 4px;
+    }
+}
+
 
 @media print{    
     #main-menu, .UI, #buttons, #gameboard{

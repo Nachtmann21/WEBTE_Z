@@ -252,16 +252,20 @@ helpButton.addEventListener('click', function () {
 });
 
 solutionButton.addEventListener('click', function () {
-    var tile = document.getElementById(0);
-    var n = 0;
-    while (tile) {
-        if (tile.getAttribute("bomb") == 1) {
-            defuseBomb(tile);
-        } else {
-            reveal(tile);
+    if(!gameOver){        
+        var tile = document.getElementById(0);
+        var n = 0;
+        while (tile) {
+            if (tile.getAttribute("bomb") == 1) {
+                defuseBomb(tile);
+            } else {
+                reveal(tile);
+            }
+            n++;
+            tile = document.getElementById(n);
         }
-        n++;
-        tile = document.getElementById(n);
+        mineCounter.innerHTML = "Solution shown";
+        handleGameOver();
     }
 });
 
